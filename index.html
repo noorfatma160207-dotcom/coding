@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickLink - Shopping, Grocery & Food Delivery Hub</title>
+    <meta name="description" content="One-stop web hub for instant access to India's top shopping, quick grocery delivery, and food apps.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --primary: #6366f1;
+            --primary-light: #e0e7ff;
+            --primary-dark: #4f46e5;
+            --accent-green: #10b981;
+            --accent-green-hover: #059669;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+            --shadow-hover: 0 16px 32px -6px rgba(99, 102, 241, 0.16), 0 4px 12px -2px rgba(0, 0, 0, 0.06);
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-full: 9999px;
+            --transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg: #0b0f19;
+            --card-bg: #141b2d;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+            --border: #1e293b;
+            --primary-light: #1e1b4b;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.4);
+            --shadow-hover: 0 16px 32px -6px rgba(99, 102, 241, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        /* Top Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .theme-toggle-btn {
+            background: var(--card-bg);
+            border: 1.5px solid var(--border);
+            color: var(--text-primary);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.15rem;
+            transition: var(--transition);
+        }
+
+        .theme-toggle-btn:hover {
+            transform: rotate(20deg) scale(1.08);
+            border-color: var(--primary);
+        }
+
+        /* Hero Banner */
+        .hero {
+            text-align: center;
+            padding: 3rem 1.5rem 4rem;
+            position: relative;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.05) 50%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.85rem;
+            border-radius: var(--radius-full);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: 2.75rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.2;
+            margin-bottom: 0.75rem;
+            position: relative;
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 580px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem 4rem;
+            width: 100%;
+            flex: 1;
+        }
+
+        /* Search & Filter Controls */
+        .controls-card {
+            background: var(--card-bg);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-md);
+            margin-top: -2rem;
+            margin-bottom: 2.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-bar-wrap {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .search-bar-wrap input {
+            width: 100%;
+            padding: 14px 20px 14px 48px;
+            font-size: 1rem;
+            font-family: inherit;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg);
+            color: var(--text-primary);
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-bar-wrap input:focus {
+            border-color: var(--primary);
+            background: var(--card-bg);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+
+        .clear-search-btn {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 4px;
+            display: none;
+        }
+
+        /* Filter Chips */
+        .filter-chips-list {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+        }
+
+        .filter-chips-list::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+
+        .filter-chip:hover {
+            border-color: var(--primary);
+            color: var(--text-primary);
+        }
+
+        .filter-chip.active {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Section Headings */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 2.5rem 0 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .section-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon-badge {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            background: var(--primary-light);
+        }
+
+        .section-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+        }
+
+        .section-count {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            background: var(--bg);
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border);
+        }
+
+        /* Apps Grid */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 1.25rem;
+        }
+
+        /* App Card */
+        .app-card {
+            background: var(--card-bg);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.5rem 1.2rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .app-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary);
+        }
+
+        .fav-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: var(--transition);
+            opacity: 0.6;
+        }
+
+        .fav-btn:hover, .fav-btn.active {
+            opacity: 1;
+            transform: scale(1.2);
+            color: #ef4444;
+        }
+
+        .app-logo-box {
+            width: 84px;
+            height: 84px;
+            border-radius: 22px;
+            padding: 10px;
+            background: #ffffff;
+            border: 1.5px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        .app-card:hover .app-logo-box {
+            transform: scale(1.08) rotate(-2deg);
+        }
+
+        .app-logo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .app-info {
+            margin-bottom: 1.2rem;
+            width: 100%;
+        }
+
+        .app-name {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            letter-spacing: -0.2px;
+        }
+
+        .app-tag {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-launch {
+            width: 100%;
+            padding: 10px 16px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-green-hover) 100%);
+            color: white;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+        }
+
+        .btn-launch:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.38);
+        }
+
+        /* Empty State */
+        .empty-search-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 1rem;
+            display: none;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            background: var(--card-bg);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .footer-content a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            .apps-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.85rem;
+            }
+            .app-card {
+                padding: 1.1rem 0.8rem;
+            }
+            .app-logo-box {
+                width: 68px;
+                height: 68px;
+            }
+            .app-name {
+                font-size: 0.95rem;
+            }
+            .navbar {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="navbar">
+        <a href="index.html" class="brand-logo">
+            <span class="brand-icon">⚡</span>
+            <span>QuickLink</span>
+        </a>
+
+        <div class="nav-actions">
+            <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle Light/Dark Theme">
+                🌙
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Header -->
+    <header class="hero">
+        <div class="hero-badge">🚀 All-in-One Instant Hub</div>
+        <h1 class="hero-title">Your Favorite Apps in <span>One Click</span></h1>
+        <p class="hero-desc">Fast, curated quick links to India's top shopping, 10-minute grocery, and food delivery platforms.</p>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="container">
+        <!-- Interactive Controls (Search & Filter) -->
+        <div class="controls-card">
+            <div class="search-bar-wrap">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="appSearchInput" placeholder="Search apps (Amazon, Swiggy, Blinkit, Zomato, Myntra...)" autocomplete="off">
+                <button class="clear-search-btn" id="clearSearchBtn">✕</button>
+            </div>
+
+            <div class="filter-chips-list" id="categoryFilterBar">
+                <button class="filter-chip active" data-filter="all">✨ All Apps (<span id="totalAppsCount">11</span>)</button>
+                <button class="filter-chip" data-filter="shopping">🛍️ Shopping</button>
+                <button class="filter-chip" data-filter="grocery">🥦 Grocery (10-Min)</button>
+                <button class="filter-chip" data-filter="food">🍔 Food Delivery</button>
+                <button class="filter-chip" data-filter="favorites">❤️ Favorites (<span id="favsCount">0</span>)</button>
+            </div>
+        </div>
+
+        <!-- Section 1: Shopping Apps -->
+        <section class="category-section" data-category="shopping">
+            <div class="section-header">
+                <div class="section-title-wrap">
+                    <span class="section-icon-badge">🛍️</span>
+                    <h2 class="section-title">Online Shopping</h2>
+                </div>
+                <span class="section-count">5 apps</span>
+            </div>
+
+            <div class="apps-grid">
+                <!-- Amazon -->
+                <div class="app-card" data-id="amazon" data-name="amazon online shopping" data-category="shopping">
+                    <button class="fav-btn" onclick="toggleFavorite('amazon')" title="Save to Favorites">♡</button>
+                    <div class="app-logo-box">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Amazon_icon.svg" alt="Amazon">
+                    </div>
+                    <div class="app-info">
+                        <h3 class="app-name">Amazon</h3>
+                        <span class="app-tag">E-Commerce & Deals</span>
+                    </div>
+                    <a href="https://www.amazon.in/" target="_blank" rel="noopener noreferrer" class="btn-launch">
+                        Open App ↗
+                    </a>
+                </div>
+
+                <!-- Flipkart -->
+                <div class="app-card" data-id="flipkart" data-name="flipkart shopping" data-category="shopping">
+                    <button class="fav-btn" onclick="toggleFavorite('flipkart')" title="Save to Favorites">♡</button>
+                    <div class="app-logo-box">
+                        <img src="https://i.pinimg.com/474x/15/aa/16/15aa1678d4ee5615c5c53ed5c9968126.jpg" alt="Flipkart">
+                    </div>
+                    <div class="app-info">
+                        <h3 class="app-name">Flipkart</h3>
+                        <span class="app-tag">Electronics & Fashion</span>
+                    </div>
+                    <a href="https://www.flipkart.com/" target="_blank" rel="noopener noreferrer" class="btn-launch">
+                        Open App ↗
+                    </a>
+                </div>
+
+                <!-- Myntra -->
+                <div class="app-card" data-id="myntra" data-name="myntra fashion clothes" data-category="shopping">
+                    <button class="fav-btn" onclick="toggleFavorite('myntra')" title="Save to Favorites">♡</button>
+                    <div class="app-logo-box">
+                        <img src="https://static.vecteezy.com/system/resources/previews/067/941/729/non_2x/myntra-logo-myntra-icon-transparent-background-free-png.png" alt="Myntra">
+                    </div>
+                    <div class="app-info">
+                        <h3 class="app-name">Myntra</h3>
+                        <span class="app-tag">Fashion & Lifestyle</span>
+                    </div>
+                    <a href="https://www.myntra.com/" target="_blank" rel="noopener noreferrer" class="btn-launch">
+                        Open App ↗
+                    </a>
+                </div>
+
+                <!-- Meesho -->
+                <div class="app-card" data-id="meesho" data-name="meesho budget shopping" data-category="shopping">
+                    <button class="fav-btn" onclick="toggleFavorite('meesho')" title="Save to Favorites">♡</button>
+                    <div class="app-logo-box">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Meesho_logo.png" alt="Meesho">
+                    </div>
+                    <div class="app-info">
+                        <h3 class="app-name">Meesho</h3>
+                        <span class="app-tag">Budget Shopping</span>
+                    </div>
+                    <a href="https://www.meesho.com/" target="_blank" rel="noopener noreferrer" class="btn-launch">
+                        Open App ↗
+                    </a>
+                </div>
+
+                <!-- Savana -->
+                <div class="app-card" data-id="savana" data-name="savana urbanic fashion" data-category="shopping">
+                    <button class="fav-btn" onclick="toggleFavorite('savana')" title="Save to Favorites">♡</button>
+                    <div class="app-logo-box">
+                        <img src="https://ui-avatars.com/api/?name=Savana&background=6366f1&color=fff&bold=true" alt="Savana">
+                    </div>
+                    <div class="app-info">
+                        <h3 class="app-name">Savana</h3>
+                        <span class="app-tag">Trendy Gen-Z Fits</span>
+                    </div>
+                    <a href="https://www.savana.com/" target="_blank" rel="noopener noreferrer" class="btn-launch">
+                        Open App ↗
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Grocery Apps -->
+        <section class="category-section" data-category="grocery">
+            <div class="section-header">
+                <div class="section-title-wrap">
+                    <span class="section-icon-badge">🥦</span>
+                    <h2 class="section-title">Quick Grocery Delivery</h2>
+                </div>
+                <span class="section-count">4 apps</span>
+            </div>
+
+            <div class="apps-grid">
+                <!-- Blinkit -->
+                <div class="app-card" data-id="blinkit" data-name="blinkit 10 minute grocery" data-category="grocery">
+                    <button class="fav-btn" onclick="toggleFavorite('blinkit')" title="Save to Favorites">♡</button>
+                    <div class="app-logo-box">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Blinkit-yellow-rounded.svg" alt="Blinkit">
+                    </div>
+                    <div class="app-info">
+                        <h3 class="app-name">Blinkit</h3>
+                        <span class="app-tag">10-Minute Delivery</span>
+                    </div>
+                    <a href="https://www.blinkit.com" target="_blank" rel="noopener noreferrer" class="btn-launch">
+                        Open App ↗
+                    </a>
+                </div>
+
+                <!-- BigBasket -->
+                <div class="app-card" data-id="bigbasket" data-name="bigbasket bb daily grocery" data-category="grocery">
+                    <button class="fav-btn" onclick="toggleFavorite('bigbasket')" title="Save to Favorites">♡</button>
+                    <div class="app-logo-box">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/BigBasket_Logo.png/220px-BigBasket_Logo.png" alt="BigBasket" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Big+Basket&background=e11d48&color=fff&bold=true';">
+                    </div>
+                    <div class="app-info">
+                        <h3 class="app-name">BigBasket</h3>
+                        <span class="app-tag">Supermarket & Fresh</span>
+                    </div>
+                    <a href="https://www.bigbasket.com" target="_blank" rel="noopener noreferrer" class="btn-launch">
+                        Open App ↗
+                    </a>
+                </div>
+
+                <!-- Swiggy Instamart -->
+                <div class="app-card" data-id="instamart" data-name="swiggy instamart grocery" data-category="grocery">
+                    <button class="fav-btn" onclick="toggleFavorite('instamart')" title="Save to Favorites">♡</button>
+                    <div class="app-logo-box">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/13/Swiggy_logo.svg" alt="Swiggy Instamart">
+                    </div>
+                    <div class="app-info">
+                        <h3 class="app-name">Instamart</h3>
+                        <span class="app-tag">Instant Essentials</span>
+                    </div>
+                    <a href="https://www.swiggy.com/instamart" target="_blank" rel="noopener noreferrer" class="btn-launch">
+                        Open App ↗
+                    </a>
+                </div>
+
+                <!-- JioMart -->
+                <div class="app-card" data-id="jiomart" data-name="jiomart reliance grocery" data-category="grocery">
+                    <button class="fav-btn" onclick="toggleFavorite('jiomart')" title="Save to Favorites">♡</button>
+                    <div class="app-logo-box">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/54/JioMart_logo.svg" alt="JioMart">
+                    </div>
+                    <div class="app-info">
+                        <h3 class="app-name">JioMart</h3>
+                        <span class="app-tag">Reliance Smart Bazaar</span>
+                    </div>
+                    <a href="https://www.jiomart.com" target="_blank" rel="noopener noreferrer" class="btn-launch">
+                        Open App ↗
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Food Delivery Apps -->
+        <section class="category-section" data-category="food">
+            <div class="section-header">
+                <div class="section-title-wrap">
+                    <span class="section-icon-badge">🍔</span>
+                    <h2 class="section-title">Food & Dining Delivery</h2>
+                </div>
+                <span class="section-count">2 apps</span>
+            </div>
+
+            <div class="apps-grid">
+                <!-- Swiggy -->
+                <div class="app-card" data-id="swiggy" data-name="swiggy food delivery restaurant" data-category="food">
+                    <button class="fav-btn" onclick="toggleFavorite('swiggy')" title="Save to Favorites">♡</button>
+                    <div class="app-logo-box">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/13/Swiggy_logo.svg" alt="Swiggy">
+                    </div>
+                    <div class="app-info">
+                        <h3 class="app-name">Swiggy</h3>
+                        <span class="app-tag">Restaurants & Dineout</span>
+                    </div>
+                    <a href="https://www.swiggy.com" target="_blank" rel="noopener noreferrer" class="btn-launch">
+                        Open App ↗
+                    </a>
+                </div>
+
+                <!-- Zomato -->
+                <div class="app-card" data-id="zomato" data-name="zomato food dining gold" data-category="food">
+                    <button class="fav-btn" onclick="toggleFavorite('zomato')" title="Save to Favorites">♡</button>
+                    <div class="app-logo-box">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/75/Zomato_logo.png" alt="Zomato" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Zomato&background=e11d48&color=fff&bold=true';">
+                    </div>
+                    <div class="app-info">
+                        <h3 class="app-name">Zomato</h3>
+                        <span class="app-tag">Food & Restaurant Reviews</span>
+                    </div>
+                    <a href="https://www.zomato.com/" target="_blank" rel="noopener noreferrer" class="btn-launch">
+                        Open App ↗
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Empty Results Message -->
+        <div class="empty-search-state" id="emptyState">
+            <div class="empty-icon">🔍</div>
+            <h3>No apps found</h3>
+            <p style="color: var(--text-secondary); margin-top: 6px;">Try typing a different name or resetting your filter.</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>⚡ <strong>QuickLink</strong> — Crafted with love for fast browsing.</p>
+            <p>© 2026 QuickLink Hub. All app trademarks belong to their respective owners.</p>
+        </div>
+    </footer>
+
+    <!-- Interactive Script -->
+    <script>
+        // --- Theme Management ---
+        const themeBtn = document.getElementById('themeToggleBtn');
+        const currentTheme = localStorage.getItem('quicklink_theme') || 'light';
+        if (currentTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeBtn.textContent = '☀️';
+        }
+
+        themeBtn.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                document.documentElement.removeAttribute('data-theme');
+                themeBtn.textContent = '🌙';
+                localStorage.setItem('quicklink_theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeBtn.textContent = '☀️';
+                localStorage.setItem('quicklink_theme', 'dark');
+            }
+        });
+
+        // --- Favorites Management ---
+        function getFavorites() {
+            try {
+                return JSON.parse(localStorage.getItem('quicklink_favs')) || [];
+            } catch {
+                return [];
+            }
+        }
+
+        function saveFavorites(favs) {
+            localStorage.setItem('quicklink_favs', JSON.stringify(favs));
+            updateFavUI();
+        }
+
+        function toggleFavorite(id) {
+            let favs = getFavorites();
+            if (favs.includes(id)) {
+                favs = favs.filter(item => item !== id);
+            } else {
+                favs.push(id);
+            }
+            saveFavorites(favs);
+            if (currentFilter === 'favorites') {
+                filterApps();
+            }
+        }
+
+        function updateFavUI() {
+            const favs = getFavorites();
+            document.getElementById('favsCount').textContent = favs.length;
+
+            document.querySelectorAll('.app-card').forEach(card => {
+                const id = card.getAttribute('data-id');
+                const btn = card.querySelector('.fav-btn');
+                if (btn) {
+                    if (favs.includes(id)) {
+                        btn.classList.add('active');
+                        btn.textContent = '❤️';
+                    } else {
+                        btn.classList.remove('active');
+                        btn.textContent = '♡';
+                    }
+                }
+            });
+        }
+
+        // --- Filter & Search Logic ---
+        let currentFilter = 'all';
+        const searchInput = document.getElementById('appSearchInput');
+        const clearBtn = document.getElementById('clearSearchBtn');
+        const emptyState = document.getElementById('emptyState');
+
+        function filterApps() {
+            const query = searchInput.value.trim().toLowerCase();
+            clearBtn.style.display = query.length > 0 ? 'block' : 'none';
+
+            const favs = getFavorites();
+            const cards = document.querySelectorAll('.app-card');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                const cat = card.getAttribute('data-category');
+                const id = card.getAttribute('data-id');
+
+                const matchesQuery = name.includes(query);
+                let matchesCategory = false;
+
+                if (currentFilter === 'all') {
+                    matchesCategory = true;
+                } else if (currentFilter === 'favorites') {
+                    matchesCategory = favs.includes(id);
+                } else {
+                    matchesCategory = (cat === currentFilter);
+                }
+
+                if (matchesQuery && matchesCategory) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Toggle category sections visibility
+            document.querySelectorAll('.category-section').forEach(section => {
+                const visibleCards = section.querySelectorAll('.app-card[style="display: flex;"]');
+                section.style.display = (visibleCards.length > 0) ? 'block' : 'none';
+            });
+
+            emptyState.style.display = (visibleCount === 0) ? 'block' : 'none';
+        }
+
+        searchInput.addEventListener('input', filterApps);
+
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            filterApps();
+            searchInput.focus();
+        });
+
+        // Filter chips click handler
+        document.querySelectorAll('.filter-chip').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.getAttribute('data-filter');
+                filterApps();
+            });
+        });
+
+        // Initialize UI
+        updateFavUI();
+        filterApps();
+    </script>
+</body>
+</html>
